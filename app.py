@@ -36,20 +36,35 @@ terminal_css = """
 """
 st.markdown(terminal_css, unsafe_allow_html=True)
 
-# --- LÓGICA DEL MINIJUEGO DE LA BOMBA (LENTA) ---
+# --- LÓGICA DEL MINIJUEGO DE LA BOMBA (PERSEGUIDORA) ---
 bomb_html = """
-<div id="bomb" style="position:fixed; cursor:none; font-size:30px; z-index:10000; left:50px; top:50px;">💣</div>
+<div id="bomb" style="position:fixed; font-size:30px; z-index:10000; left:50px; top:50px; pointer-events:none;">💣</div>
 <script>
     const bomb = document.getElementById('bomb');
-    let mx = 0, my = 0, bx = 100, by = 100, vx = 0, vy = 0;
-    window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    // Inicializamos las coordenadas en el centro de la pantalla
+    let mx = window.innerWidth / 2;
+    let my = window.innerHeight / 2;
+    let bx = mx, by = my, vx = 0, vy = 0;
+
+    // Seguimos al ratón en cualquier posición del viewport
+    window.addEventListener('mousemove', e => { 
+        mx = e.clientX; 
+        my = e.clientY; 
+    });
+
     function animate() {
-        vx += (mx - bx) * 0.0015; // Velocidad muy baja
-        vy += (my - by) * 0.0015;
-        bx += vx *= 0.92; // Amortiguación para suavizar
-        by += vy *= 0.92;
+        // Aceleración suave hacia el cursor
+        vx += (mx - bx) * 0.002;
+        vy += (my - by) * 0.002;
+        
+        // Fricción para suavizar el desplazamiento
+        bx += vx *= 0.90;
+        by += vy *= 0.90;
+        
+        // Aplicamos la posición
         bomb.style.left = bx + 'px';
         bomb.style.top = by + 'px';
+        
         requestAnimationFrame(animate);
     }
     animate();
