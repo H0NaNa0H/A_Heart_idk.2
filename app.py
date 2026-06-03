@@ -286,11 +286,9 @@ st.markdown("""
         # -------------------------------------------------------------
         if 'heart_clicked' not in st.session_state:
             st.session_state.heart_clicked = False
-        
         # Botón interactivo debajo del corazón con estilo de terminal hacker
         if st.button("💚 [ INTERACT WITH CONSTANT_HEART.SYS ] 💚"):
             st.session_state.heart_clicked = True
-            
         if st.session_state.heart_clicked:
             st.markdown('<p class="terminal-text" style="color: #ff0055 !important;">> [DECRYPTING HEART_LOG.TXT...]</p>', unsafe_allow_html=True)
             time.sleep(0.3)
@@ -300,7 +298,6 @@ st.markdown("""
                 '</p>', 
                 unsafe_allow_html=True
             )
-        
         # Final dedication message
         st.markdown(
             '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 30px;">'
