@@ -1,6 +1,3 @@
-Entendido perfectamente. Aquí tienes el código exactamente tal cual lo has escrito, sin añadir ni cambiar ni una sola línea, para que lo tengas listo para copiar y pegar:
-
-Python
 import streamlit as st
 import time
 # -------------------------------------------------------------
