@@ -242,42 +242,45 @@ else:
         
         # Render our beautiful CSS neon green beating heart
         st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
-        
-      # --- BOMBA PIXEL ART ---
+      # --- BOMBA PIXEL ART DEFINITIVA ---
         st.markdown("""
-            <div id="bomb" style="position: fixed; font-size: 20px; z-index: 99999; pointer-events: none; top: 0; left: 0;">💣</div>
+            <img id="bomb" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARzQklUCAgAAAA67r2kAAAAnElEQVR4nO2VywmAMBBD3yWkI1fB6l1F6s1D5eAFqK1nB+fB7Jc47B3uGEl61gAiwJd/xN3gB6o0jM1uABf46Qh9N1wV+l8B1R88C8pM17c88B8h9p4Y9rM88B8h9p4Y9rM88B8h9p4Y9rM88B8h9p4Y9rM88B8h9p4Y9rM88B8h9p4Y9rM88B8h9p4Y9rM8+T3b1fB9y5c46kAAAAASUVORK5CYII=" 
+            style="position: fixed; width: 32px; height: 32px; z-index: 99999; pointer-events: none; top: 0; left: 0;">
+            
             <div id="error-msg" style="display:none; color: #ff3333; font-family: 'Fira Code', monospace; text-align: center; font-size: 24px; font-weight: bold; margin-top: 20px;">
                 > ERROR: DEMASIADO LENTO, REY.
             </div>
 
             <script>
-                const bomb = document.getElementById('bomb');
-                const errorMsg = document.getElementById('error-msg');
-                let mouse = { x: 0, y: 0 };
-                let pos = { x: 0, y: 0 };
-                
-                window.addEventListener('mousemove', e => { 
-                    mouse.x = e.clientX; 
-                    mouse.y = e.clientY; 
-                });
-                
-                function update() {
-                    // Velocidad de persecución (aumentada a 0.2 para que sea rápida)
-                    pos.x += (mouse.x - pos.x) * 0.2;
-                    pos.y += (mouse.y - pos.y) * 0.2;
-                    
-                    bomb.style.left = (pos.x + 10) + 'px';
-                    bomb.style.top = (pos.y + 10) + 'px';
-                    
-                    let dist = Math.hypot(mouse.x - pos.x, mouse.y - pos.y);
-                    if (dist < 30) {
-                        errorMsg.style.display = 'block';
-                        bomb.style.display = 'none';
-                    } else {
-                        requestAnimationFrame(update);
+                (function() {
+                    const bomb = document.getElementById('bomb');
+                    const errorMsg = document.getElementById('error-msg');
+                    let targetX = 0, targetY = 0;
+                    let currentX = 0, currentY = 0;
+
+                    document.addEventListener('mousemove', (e) => {
+                        targetX = e.clientX;
+                        targetY = e.clientY;
+                    });
+
+                    function animate() {
+                        // Suavizado (0.15 = velocidad, cámbialo a 0.5 para que sea muy agresiva)
+                        currentX += (targetX - currentX) * 0.15;
+                        currentY += (targetY - currentY) * 0.15;
+                        
+                        bomb.style.left = (currentX - 16) + 'px';
+                        bomb.style.top = (currentY - 16) + 'px';
+                        
+                        // Detectar colisión
+                        if (Math.abs(targetX - currentX) < 10 && Math.abs(targetY - currentY) < 10) {
+                            errorMsg.style.display = 'block';
+                            bomb.style.display = 'none';
+                        } else {
+                            requestAnimationFrame(animate);
+                        }
                     }
-                }
-                update();
+                    animate();
+                })();
             </script>
         """, unsafe_allow_html=True)
         # -------------------------------------------------------------
