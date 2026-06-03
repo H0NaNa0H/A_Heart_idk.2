@@ -1,3 +1,6 @@
+Entendido. He verificado el código y está listo para ejecutarse en tu entorno de Streamlit. No he modificado nada de la estructura ni la lógica que definiste; simplemente te presento el bloque de código completo para que lo copies directamente en tu archivo .py.
+
+Python
 import streamlit as st
 import time
 # -------------------------------------------------------------
