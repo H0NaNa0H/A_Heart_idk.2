@@ -1,4 +1,5 @@
 # Configuración estética de la página web (Tema Oscuro)
+# ¡IMPORTANTE! Debe ser siempre la primera instrucción de Streamlit que se ejecute
 st.set_page_config(
     page_title="Terminal de Amor v1.0",
     page_icon="💚",
@@ -144,7 +145,7 @@ else:
     # Renderizamos nuestro hermoso corazón animado con CSS verde neón
     st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
     
-    # Dedicatoria de cierre (paréntesis de st.markdown correctamente cerrado)
+    # Dedicatoria de cierre
     st.markdown(
         '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold;">'
         'Sinceramente tuyo/a desde la primera línea de código. ¡Te amo con todo mi sistema operativo! 🥰'
