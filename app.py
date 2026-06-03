@@ -82,6 +82,11 @@ else:
         if st.session_state.show_bomb_game:
             components.html(bomb_html, height=0)
             st.markdown('<p class="terminal-text" style="color:red;">> WARNING: BOMB_ACTIVE</p>', unsafe_allow_html=True)
+            # Renderizado condicional
+        if st.session_state.get('show_bomb_game', False):
+            # Usamos un height mayor para ver que el script se carga
+            components.html(bomb_html, height=100) 
+            st.write("Juego activo en segundo plano...")
 
         # Contenido original
         st.markdown('<p class="terminal-text">> [ACCESS GRANTED] Hi, Kralj!</p>', unsafe_allow_html=True)
