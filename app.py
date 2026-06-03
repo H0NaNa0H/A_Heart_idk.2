@@ -242,53 +242,17 @@ else:
         
         # Render our beautiful CSS neon green beating heart
         st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
-# --- BOMBA "A PRUEBA DE TODO" ---
-st.markdown("""
-    <div id="bomb-container" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; pointer-events: none;">
-        <div id="bomb-pixel" style="position: absolute; font-size: 24px;">💣</div>
-    </div>
-    <div id="error-msg" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ff3333; font-family: 'Fira Code', monospace; font-size: 32px; font-weight: bold; z-index: 10000; text-shadow: 0 0 10px #000;">
-        > ERROR: DEMASIADO LENTO, REY.
-    </div>
-
-    <script>
-        const bomb = document.getElementById('bomb-pixel');
-        const errorMsg = document.getElementById('error-msg');
-        let mouse = { x: window.innerWidth/2, y: window.innerHeight/2 };
-        let pos = { x: window.innerWidth/2, y: window.innerHeight/2 };
-
-        window.addEventListener('mousemove', e => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-
-        function moveBomb() {
-            // Velocidad de persecución (0.1 = suave, 0.3 = rápido)
-            pos.x += (mouse.x - pos.x) * 0.15;
-            pos.y += (mouse.y - pos.y) * 0.15;
-            
-            bomb.style.left = pos.x + 'px';
-            bomb.style.top = pos.y + 'px';
-
-            let dist = Math.hypot(mouse.x - pos.x, mouse.y - pos.y);
-            if (dist < 30) {
-                errorMsg.style.display = 'block';
-                bomb.style.display = 'none';
-            } else {
-                requestAnimationFrame(moveBomb);
-            }
-        }
-        moveBomb();
-    </script>
-""", unsafe_allow_html=True)
+        
         # -------------------------------------------------------------
         # NUEVO CAMBIO: Estado de sesión para saber si se hizo clic en el corazón
         # -------------------------------------------------------------
         if 'heart_clicked' not in st.session_state:
             st.session_state.heart_clicked = False
+        
         # Botón interactivo debajo del corazón con estilo de terminal hacker
         if st.button("💚 [ INTERACT WITH CONSTANT_HEART.SYS ] 💚"):
             st.session_state.heart_clicked = True
+            
         if st.session_state.heart_clicked:
             st.markdown('<p class="terminal-text" style="color: #ff0055 !important;">> [DECRYPTING HEART_LOG.TXT...]</p>', unsafe_allow_html=True)
             time.sleep(0.3)
@@ -298,6 +262,7 @@ st.markdown("""
                 '</p>', 
                 unsafe_allow_html=True
             )
+        
         # Final dedication message
         st.markdown(
             '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 30px;">'
