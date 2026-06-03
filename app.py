@@ -10,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS con el script de la bomba incluido
+# Custom CSS con el script de la bomba incluido y persistente
 terminal_css = """
 <style>
     .stApp { background-color: #0d0d0d !important; }
@@ -36,6 +36,7 @@ terminal_css = """
     .warning-box { background-color: #1a0f00; border: 2px solid #ffaa00; padding: 20px; border-radius: 5px; margin-bottom: 25px; }
     .warning-text { font-family: 'Fira Code', monospace !important; color: #ffaa00 !important; text-shadow: 0 0 5px rgba(255, 170, 0, 0.7); font-size: 16px; line-height: 1.6; }
 
+    /* Cursor bomba */
     #cursor-bomb { position: fixed; pointer-events: none; font-size: 30px; z-index: 999999; display: none; }
 </style>
 
@@ -43,12 +44,16 @@ terminal_css = """
 
 <script>
     const bomb = document.getElementById('cursor-bomb');
+    
+    // Función para actualizar posición
     window.addEventListener('mousemove', (e) => {
         bomb.style.left = (e.clientX + 15) + 'px';
         bomb.style.top = (e.clientY + 15) + 'px';
     });
 
-    function activateBombCursor() {
+    // Detectar si el acceso ya fue concedido previamente
+    const access = localStorage.getItem('acceso_concedido');
+    if (access === 'true') {
         document.body.style.cursor = 'none';
         bomb.style.display = 'block';
     }
@@ -65,15 +70,8 @@ if not st.session_state.warning_accepted:
     st.markdown('''
         <div class="warning-box">
             <p class="warning-text">> SYSTEM DETECTED A SUSPICIOUS CONNECTION FROM: NaNa.EXE</p>
-            <p class="warning-text">> Threat classification: SARCASM_HEAVY_LOAD</p>
             <p class="warning-text" style="color: #ff3333 !important; text-shadow: 0 0 5px rgba(255, 51, 51, 0.7); font-weight: bold; margin-top: 15px;">
-                WARNING: This is totally NOT a malware... or is it?
-            </p>
-            <p class="warning-text" style="margin-top: 10px;">
-                But honestly, next time you should probably think twice before clicking random links or opening untrusted packages.
-            </p>
-            <p class="warning-text" style="margin-top: 10px; font-style: italic;">
-                Otherwise, next birthday I might actually send you a real bomb instead of a harmless present (at least you should already know how to defuse that one) ;).
+                WARNING: This is totally NOT a malware...
             </p>
             <p class="warning-text" style="margin-top: 15px; font-weight: bold;">> Are you sure you want to proceed and run the executable?</p>
         </div>
@@ -85,39 +83,24 @@ if not st.session_state.warning_accepted:
 
 else:
     st.markdown('<div class="terminal-header">[ SYSTEM INITIALIZATION NaNa.EXE ]</div>', unsafe_allow_html=True)
-    st.markdown('<p class="terminal-text">> Loading modules...</p>', unsafe_allow_html=True)
-    st.markdown('<p class="terminal-text">> Connecting to server: my_illness_ip...</p>', unsafe_allow_html=True)
-
+    
     if 'acceso_concedido' not in st.session_state:
         st.session_state.acceso_concedido = False
 
     if not st.session_state.acceso_concedido:
-        st.markdown('<p class="terminal-text">> WARNING: Identity verification required.</p>', unsafe_allow_html=True)
         if st.button("CLICK TO VALIDATE"):
             st.session_state.acceso_concedido = True
-            st.markdown("<script>activateBombCursor();</script>", unsafe_allow_html=True)
+            # Guardamos estado en localstorage para que el JS lo detecte tras el rerun
+            st.markdown("<script>localStorage.setItem('acceso_concedido', 'true'); document.body.style.cursor = 'none'; document.getElementById('cursor-bomb').style.display = 'block';</script>", unsafe_allow_html=True)
             st.rerun()
     else:
-        # Mantener la bomba activa si ya se autenticó
-        st.markdown("<script>activateBombCursor();</script>", unsafe_allow_html=True)
+        # Forzamos la visibilidad de la bomba en cada render
+        st.markdown("<script>document.body.style.cursor = 'none'; document.getElementById('cursor-bomb').style.display = 'block';</script>", unsafe_allow_html=True)
         
-        with st.spinner("Processing data..."):
-            time.sleep(1)
-        
-        skulls_html = ""
-        for _ in range(45):
-            left_pos = random.randint(1, 99)
-            delay = random.uniform(0, 3.5)
-            duration = random.uniform(2.5, 6)
-            size = random.randint(18, 38)
-            skulls_html += f'<div class="skull" style="left: {left_pos}vw; animation-delay: {delay}s; animation-duration: {duration}s; font-size: {size}px;">💀</div>'
-            
+        skulls_html = "".join([f'<div class="skull" style="left: {random.randint(1,99)}vw; animation-delay: {random.uniform(0, 3)}s; animation-duration: {random.uniform(3, 6)}s; font-size: {random.randint(18, 38)}px;">💀</div>' for _ in range(45)])
         st.markdown(skulls_html, unsafe_allow_html=True)
         
         st.markdown('<p class="terminal-text" style="color: #00ffcc !important;">> [ACCESS GRANTED] Hi, Kralj! </p>', unsafe_allow_html=True)
-        st.markdown('<p class="terminal-text">> ERROR 404: cuz idk like always.</p>', unsafe_allow_html=True)
-        st.markdown('<p class="terminal-text">> Executing protocol "Constant pain"...</p>', unsafe_allow_html=True)
-        
         st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
         
         if 'heart_clicked' not in st.session_state:
@@ -128,17 +111,6 @@ else:
             
         if st.session_state.heart_clicked:
             st.markdown('<p class="terminal-text" style="color: #ff0055 !important;">> [DECRYPTING HEART_LOG.TXT...]</p>', unsafe_allow_html=True)
-            time.sleep(0.3)
-            st.markdown(
-                '<p class="terminal-text" style="background-color: #1a0000; border: 1px solid #ff0055; padding: 15px; border-radius: 5px; font-weight: bold; color: #ff3366 !important;">'
-                '>> "Don\'t get used to this because I\'m just learning and I\'m not good at these things, let alone being \'romantic?\'"'
-                '</p>', 
-                unsafe_allow_html=True
-            )
+            st.markdown('<p class="terminal-text" style="background-color: #1a0000; border: 1px solid #ff0055; padding: 15px; border-radius: 5px; color: #ff3366 !important;">>> "Don\'t get used to this..."</p>', unsafe_allow_html=True)
         
-        st.markdown(
-            '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 30px;">'
-            'Tbh idk what to put here so; I love u i guess...'
-            '</p>', 
-            unsafe_allow_html=True
-        )
+        st.markdown('<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 30px;">Tbh idk what to put here so; I love u i guess...</p>', unsafe_allow_html=True)
