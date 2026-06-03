@@ -1,4 +1,3 @@
-
 # Configuración estética de la página web (Tema Oscuro)
 st.set_page_config(
     page_title="Terminal de Amor v1.0",
@@ -145,9 +144,10 @@ else:
     # Renderizamos nuestro hermoso corazón animado con CSS verde neón
     st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
     
-    # Dedicatoria de cierre
+    # Dedicatoria de cierre (paréntesis de st.markdown correctamente cerrado)
     st.markdown(
         '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold;">'
         'Sinceramente tuyo/a desde la primera línea de código. ¡Te amo con todo mi sistema operativo! 🥰'
         '</p>', 
         unsafe_allow_html=True
+    )
