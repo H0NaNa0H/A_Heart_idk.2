@@ -38,7 +38,7 @@ st.markdown(terminal_css, unsafe_allow_html=True)
 
 # --- LÓGICA DEL MINIJUEGO DE LA BOMBA (PERSEGUIDORA) ---
 bomb_html = """
-<div id="bomb" style="position:fixed; font-size:30px; z-index:10000; left:50px; top:50px; pointer-events:none;">💣</div>
+<div id="bomb" style="position:absolute; font-size:30px; z-index:10000; left:50px; top:50px; pointer-events:none;">💣</div>
 <script>
     const bomb = document.getElementById('bomb');
     // Inicializamos las coordenadas en el centro de la pantalla
