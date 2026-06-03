@@ -48,8 +48,8 @@ bomb_html = """
 
     // Seguimos al ratón en cualquier posición del viewport
     window.addEventListener('mousemove', e => { 
-        mx = e.clientX; 
-        my = e.clientY; 
+        mx = e.pageX; 
+        my = e.pageY; 
     });
 
     function animate() {
