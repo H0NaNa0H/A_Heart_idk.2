@@ -38,25 +38,33 @@ terminal_css = """
 
     /* Bloqueo fatal */
     #error-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 100000; display: none; justify-content: center; align-items: center; flex-direction: column; color: red; font-family: 'Fira Code', monospace; }
-    #cursor-bomb { position: fixed; pointer-events: none; font-size: 16px; z-index: 10000; animation: sway 0.5s infinite ease-in-out alternate; }
-    @keyframes sway { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
+    #cursor-bomb { position: fixed; pointer-events: none; font-size: 24px; z-index: 10000; display: none; transition: transform 0.1s ease; }
 </style>
 
 <div id="cursor-bomb">💣</div>
 <div id="error-overlay">
-    <h1 style="font-size: 50px;">FATAL ERROR</h1>
-    <p>SYSTEM COMPROMISED. ACCESS DENIED.</p>
+    <h1 style="font-size: 80px;">ERROR</h1>
+    <p>SYSTEM COMPROMISED.</p>
 </div>
 
 <script>
     const bomb = document.getElementById('cursor-bomb');
     const overlay = document.getElementById('error-overlay');
+    let active = false;
+
+    function activateBomb() {
+        active = true;
+        bomb.style.display = 'block';
+    }
+
     document.addEventListener('mousemove', (e) => {
+        if (!active) return;
         bomb.style.left = (e.clientX + 10) + 'px';
         bomb.style.top = (e.clientY + 10) + 'px';
     });
+
     document.addEventListener('click', (e) => {
-        overlay.style.display = 'flex';
+        if (active) overlay.style.display = 'flex';
     });
 </script>
 """
@@ -99,5 +107,8 @@ else:
             
         if st.session_state.heart_clicked:
             st.markdown('<p class="terminal-text" style="background-color: #1a0000; border: 1px solid #ff0055; padding: 15px; border-radius: 5px; font-weight: bold; color: #ff3366 !important;">>> "Don\'t get used to this because I\'m just learning and I\'m not good at these things, let alone being \'romantic?\'"</p>', unsafe_allow_html=True)
+            
+            # Activamos la bomba cuando el usuario termina de ver el mensaje
+            st.markdown("<script>activateBomb();</script>", unsafe_allow_html=True)
         
         st.markdown('<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 30px;">Tbh idk what to put here so; I love u i guess...</p>', unsafe_allow_html=True)
