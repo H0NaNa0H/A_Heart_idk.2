@@ -168,9 +168,6 @@ terminal_css = """
     .warning-box { background-color: #1a0f00; border: 2px solid #ffaa00; padding: 20px; border-radius: 5px; }
     .warning-text { color: #ffaa00 !important; font-size: 16px; }
 </style>
-"""
-# Inyección de la BOMBA
-        st.markdown("""
         <div id="bomb" class="bomb-cursor">💣</div>
         <script>
             const bomb = document.getElementById('bomb');
