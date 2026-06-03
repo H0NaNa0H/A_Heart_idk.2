@@ -1,5 +1,9 @@
 import streamlit as st
 import time
+# -------------------------------------------------------------
+# CAMBIO 1: Importamos la librería 'random' para poder generar
+# valores aleatorios (posiciones, tamaños y velocidades de las calaveras)
+# -------------------------------------------------------------
 import random
 
 # Aesthetic webpage configuration (Dark Mode)
@@ -111,26 +115,30 @@ terminal_css = """
         100% { transform: scale(0.9); }
     }
 
-    /* Custom falling skulls (Calaveras) animation */
+    /* ------------------------------------------------------------- */
+    /* CAMBIO 2: Estilos CSS para el diseño y movimiento de las calaveras. */
+    /* Definimos que empiecen flotando arriba, vayan bajando y rotando */
+    /* ------------------------------------------------------------- */
     .skull {
         position: fixed;
-        top: -10%;
-        user-select: none;
-        pointer-events: none;
-        z-index: 9999;
-        animation: fall linear forwards;
+        top: -10%;            /* Aparecen justo encima del borde superior */
+        user-select: none;    /* Evita que el usuario las pueda seleccionar sin querer */
+        pointer-events: none; /* Permite hacer clic "a través" de ellas */
+        z-index: 9999;        /* Las posiciona por encima de todo el contenido */
+        animation: fall linear forwards; /* Aplica la animación de caída */
     }
+    
     @keyframes fall {
         0% {
-            transform: translateY(0) rotate(0deg);
-            opacity: 1;
+            transform: translateY(0) rotate(0deg); /* Empieza sin caída y derecha */
+            opacity: 1;                            /* Totalmente visible */
         }
         90% {
-            opacity: 0.9;
+            opacity: 0.9;                          /* Sigue muy visible antes del final */
         }
         100% {
-            transform: translateY(110vh) rotate(360deg);
-            opacity: 0;
+            transform: translateY(110vh) rotate(360deg); /* Cae hasta el fondo y da una vuelta completa */
+            opacity: 0;                                  /* Se desvanece por completo */
         }
     }
 </style>
@@ -160,14 +168,21 @@ else:
     with st.spinner("Processing data..."):
         time.sleep(1)
     
-    # Generate custom falling skulls (calaveras) animation in HTML
+    # -------------------------------------------------------------
+    # CAMBIO 3: Bucle generador de lluvia de calaveras.
+    # En lugar de st.balloons(), construimos HTML dinámico con Python
+    # -------------------------------------------------------------
     skulls_html = ""
-    for _ in range(45):
-        left_pos = random.randint(1, 99)
-        delay = random.uniform(0, 3.5)
-        duration = random.uniform(2.5, 6)
-        size = random.randint(18, 38)
+    for _ in range(45): # Generamos 45 calaveras individuales
+        left_pos = random.randint(1, 99)   # Posición en el ancho de la pantalla (1% al 99% de ancho)
+        delay = random.uniform(0, 3.5)     # Tiempo de retraso aleatorio antes de empezar a caer (segundos)
+        duration = random.uniform(2.5, 6)  # Tiempo de duración (velocidad) de la caída (segundos)
+        size = random.randint(18, 38)      # Tamaño aleatorio de la calavera en píxeles (px)
+        
+        # Juntamos los datos generados en una etiqueta HTML 'div'
         skulls_html += f'<div class="skull" style="left: {left_pos}vw; animation-delay: {delay}s; animation-duration: {duration}s; font-size: {size}px;">💀</div>'
+        
+    # Inyectamos el bloque completo de calaveras en el navegador
     st.markdown(skulls_html, unsafe_allow_html=True)
     
     st.markdown('<p class="terminal-text" style="color: #00ffcc !important;">> [ACCESS GRANTED] Hi, Kralj! </p>', unsafe_allow_html=True)
@@ -180,9 +195,29 @@ else:
     # Render our beautiful CSS neon green beating heart
     st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
     
+    # -------------------------------------------------------------
+    # NUEVO CAMBIO: Estado de sesión para saber si se hizo clic en el corazón
+    # -------------------------------------------------------------
+    if 'heart_clicked' not in st.session_state:
+        st.session_state.heart_clicked = False
+    
+    # Botón interactivo debajo del corazón con estilo de terminal hacker
+    if st.button("💚 [ INTERACT WITH CONSTANT_HEART.SYS ] 💚"):
+        st.session_state.heart_clicked = True
+        
+    if st.session_state.heart_clicked:
+        st.markdown('<p class="terminal-text" style="color: #ff0055 !important;">> [DECRYPTING HEART_LOG.TXT...]</p>', unsafe_allow_html=True)
+        time.sleep(0.3)
+        st.markdown(
+            '<p class="terminal-text" style="background-color: #1a0000; border: 1px solid #ff0055; padding: 15px; border-radius: 5px; font-weight: bold; color: #ff3366 !important;">'
+            '>> "No te acostumbres a esto porque solo ando aprendiendo y no se me da bien estas cosas y menos ser \'remantica?\'"'
+            '</p>', 
+            unsafe_allow_html=True
+        )
+    
     # Final dedication message
     st.markdown(
-        '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold;">'
+        '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 30px;">'
         'Tbh idk what to put here so; I love u i guess...'
         '</p>', 
         unsafe_allow_html=True
