@@ -210,7 +210,7 @@ else:
         time.sleep(0.3)
         st.markdown(
             '<p class="terminal-text" style="background-color: #1a0000; border: 1px solid #ff0055; padding: 15px; border-radius: 5px; font-weight: bold; color: #ff3366 !important;">'
-            '>> "No te acostumbres a esto porque solo ando aprendiendo y no se me da bien estas cosas y menos ser \'remantica?\'"'
+            '>> "Don\'t get used to this because I\'m just learning and I\'m not good at these things, let alone being \'remantic?\'"'
             '</p>', 
             unsafe_allow_html=True
         )
