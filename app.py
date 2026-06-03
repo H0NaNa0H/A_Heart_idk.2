@@ -158,7 +158,35 @@ terminal_css = """
         line-height: 1.6;
     }
 </style>
+/* Estilo de la bomba */
+    .bomb-cursor {
+        position: fixed; font-size: 25px; pointer-events: none;
+        z-index: 10000; transition: transform 0.1s ease;
+        text-shadow: 0 0 5px #39FF14;
+    }
+    
+    .warning-box { background-color: #1a0f00; border: 2px solid #ffaa00; padding: 20px; border-radius: 5px; }
+    .warning-text { color: #ffaa00 !important; font-size: 16px; }
+</style>
 """
+# Inyección de la BOMBA
+        st.markdown("""
+        <div id="bomb" class="bomb-cursor">💣</div>
+        <script>
+            const bomb = document.getElementById('bomb');
+            let bx = window.innerWidth/2, by = window.innerHeight/2, mx = 0, my = 0;
+            document.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+            function animate() {
+                bx += (mx - bx) * 0.04; by += (my - by) * 0.04;
+                bomb.style.left = bx + 'px'; bomb.style.top = by + 'px';
+                if (Math.hypot(bx - mx, by - my) < 30) {
+                    document.body.innerHTML = '<div style="display:flex; justify-content:center; align-items:center; height:100vh; color:#39FF14; font-size: 80px; font-family: monospace; background:#0d0d0d;">DEMASIADO LENTO</div>';
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        </script>
+        """, unsafe_allow_html=True)
 
 # Apply the custom CSS
 st.markdown(terminal_css, unsafe_allow_html=True)
