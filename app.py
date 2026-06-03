@@ -1,8 +1,8 @@
 import streamlit as st
 import time
 
-# Configuración estética de la página web (Tema Oscuro)
-# ¡IMPORTANTE! Debe ser siempre la primera instrucción de Streamlit que se ejecute
+# Aesthetic webpage configuration (Dark Mode)
+# IMPORTANT! This must be the very first Streamlit command executed
 st.set_page_config(
     page_title="Terminal v1.0",
     page_icon="💚",
@@ -10,10 +10,10 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Estilo CSS personalizado para transformar Streamlit en una terminal de hacker/coder
+# Custom CSS to transform Streamlit into a hacker/coder terminal
 terminal_css = """
 <style>
-    /* Fondo negro de terminal y ocultar elementos innecesarios */
+    /* Dark terminal background and hide default UI elements */
     .stApp {
         background-color: #0d0d0d !important;
     }
@@ -21,12 +21,12 @@ terminal_css = """
         visibility: hidden !important;
     }
     
-    /* Fuente de consola color verde neón */
-    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
+    /* Neon green console font */
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght=400;700&display=swap');
     
     .terminal-text {
         font-family: 'Fira Code', monospace !important;
-        color: #39FF14 !important; /* Verde Neón */
+        color: #39FF14 !important; /* Neon Green */
         text-shadow: 0 0 5px rgba(57, 255, 20, 0.7);
         font-size: 18px;
         line-height: 1.6;
@@ -44,7 +44,7 @@ terminal_css = """
         margin-bottom: 30px;
     }
     
-    /* Botón personalizado estilo consola */
+    /* Custom console-style button */
     .stButton>button {
         background-color: transparent !important;
         color: #39FF14 !important;
@@ -64,7 +64,7 @@ terminal_css = """
         box-shadow: 0 0 15px rgba(57, 255, 20, 0.8) !important;
     }
     
-    /* El Corazón animado por CSS (Latido 3D) */
+    /* CSS animated 3D heartbeat */
     .heart-container {
         display: flex;
         justify-content: center;
@@ -90,7 +90,7 @@ terminal_css = """
         top: 0;
         width: 50px;
         height: 80px;
-        background: #39FF14; /* Corazón verde neón a juego */
+        background: #39FF14; /* Neon green heart */
         border-radius: 50px 50px 0 0;
         transform: rotate(-45deg);
         transform-origin: 0 100%;
@@ -112,46 +112,46 @@ terminal_css = """
 </style>
 """
 
-# Aplicar el CSS personalizado
+# Apply the custom CSS
 st.markdown(terminal_css, unsafe_allow_html=True)
 
-# Encabezado estilo terminal
-st.markdown('<div class="terminal-header">[ SYSTEM INITIALIZATION DE_AMOR.EXE ]</div>', unsafe_allow_html=True)
+# Console-style header
+st.markdown('<div class="terminal-header">[ SYSTEM INITIALIZATION NaNa.EXE ]</div>', unsafe_allow_html=True)
 
-# Mensaje de inicialización interactivo
+# Interactive initialization messages
 st.markdown('<p class="terminal-text">> Loading modules...</p>', unsafe_allow_html=True)
-st.markdown('<p class="terminal-text">> Connecting to server: my_heart_ip...</p>', unsafe_allow_html=True)
+st.markdown('<p class="terminal-text">> Connecting to server: my_illness_ip...</p>', unsafe_allow_html=True)
 
-# Creamos un botón interactivo de "Acceso"
-if 'access_granted' not in st.session_state:
+# Create an interactive "Access" button using session state
+if 'acceso_concedido' not in st.session_state:
     st.session_state.acceso_concedido = False
 
 if not st.session_state.acceso_concedido:
-    st.markdown('<p class="terminal-text">> ADVERTENCIA: Se requiere verificación de identidad.</p>', unsafe_allow_html=True)
-    if st.button("CLICK TO VERIFY"):
+    st.markdown('<p class="terminal-text">> WARNING: Identity verification required.</p>', unsafe_allow_html=True)
+    if st.button("CLICK TO VALIDATE"):
         st.session_state.acceso_concedido = True
         st.rerun()
 else:
-    # Simulación de carga hacker súper rápida
-    with st.spinner("Data analysis..."):
+    # Quick hacker-like loading simulation
+    with st.spinner("Processing data..."):
         time.sleep(1)
     
-    st.balloons() # Lluvia de globos para festejar el acceso
+    st.balloons() # Release balloons to celebrate access
     
-    st.markdown('<p class="terminal-text" style="color: #00ffcc !important;">> [ACCESO GRANTED] ¡Hi, darling! ❤️</p>', unsafe_allow_html=True)
+    st.markdown('<p class="terminal-text" style="color: #00ffcc !important;">> [ACCESS GRANTED] Hi, Kralj! </p>', unsafe_allow_html=True)
     st.markdown(
-        '<p class="terminal-text">> ERROR 404: The amount of love I feel for u has exceeded the storage space on my local hard drive.</p>', 
+        '<p class="terminal-text">> ERROR 404: cuz idk like always.</p>', 
         unsafe_allow_html=True
     )
-    st.markdown('<p class="terminal-text">> Running protocol "steady beat"...</p>', unsafe_allow_html=True)
+    st.markdown('<p class="terminal-text">> Executing protocol "Constant pain"...</p>', unsafe_allow_html=True)
     
-    # Renderizamos nuestro hermoso corazón animado con CSS verde neón
+    # Render our beautiful CSS neon green beating heart
     st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
     
-    # Dedicatoria de cierre
+    # Final dedication message
     st.markdown(
         '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold;">'
-        'idk what to put there so; I love u i guess...'
+        'Tbh idk what to put here so; I love u i guess...'
         '</p>', 
         unsafe_allow_html=True
     )
