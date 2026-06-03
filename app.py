@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+import random
 
 # Aesthetic webpage configuration (Dark Mode)
 # IMPORTANT! This must be the very first Streamlit command executed
@@ -10,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS to transform Streamlit into a hacker/coder terminal
+# Custom CSS to transform Streamlit into a hacker/coder terminal with custom skull rain
 terminal_css = """
 <style>
     /* Dark terminal background and hide default UI elements */
@@ -109,6 +110,29 @@ terminal_css = """
         60% { transform: scale(0.95); }
         100% { transform: scale(0.9); }
     }
+
+    /* Custom falling skulls (Calaveras) animation */
+    .skull {
+        position: fixed;
+        top: -10%;
+        user-select: none;
+        pointer-events: none;
+        z-index: 9999;
+        animation: fall linear forwards;
+    }
+    @keyframes fall {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+        90% {
+            opacity: 0.9;
+        }
+        100% {
+            transform: translateY(110vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
 </style>
 """
 
@@ -136,7 +160,15 @@ else:
     with st.spinner("Processing data..."):
         time.sleep(1)
     
-    st.balloons() # Release balloons to celebrate access
+    # Generate custom falling skulls (calaveras) animation in HTML
+    skulls_html = ""
+    for _ in range(45):
+        left_pos = random.randint(1, 99)
+        delay = random.uniform(0, 3.5)
+        duration = random.uniform(2.5, 6)
+        size = random.randint(18, 38)
+        skulls_html += f'<div class="skull" style="left: {left_pos}vw; animation-delay: {delay}s; animation-duration: {duration}s; font-size: {size}px;">💀</div>'
+    st.markdown(skulls_html, unsafe_allow_html=True)
     
     st.markdown('<p class="terminal-text" style="color: #00ffcc !important;">> [ACCESS GRANTED] Hi, Kralj! </p>', unsafe_allow_html=True)
     st.markdown(
@@ -154,4 +186,3 @@ else:
         'Tbh idk what to put here so; I love u i guess...'
         '</p>', 
         unsafe_allow_html=True
-    )
