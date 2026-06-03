@@ -1,8 +1,13 @@
 import streamlit as st
 import time
+# -------------------------------------------------------------
+# CAMBIO 1: Importamos la librería 'random' para poder generar
+# valores aleatorios (posiciones, tamaños y velocidades de las calaveras)
+# -------------------------------------------------------------
 import random
 
 # Aesthetic webpage configuration (Dark Mode)
+# IMPORTANT! This must be the very first Streamlit command executed
 st.set_page_config(
     page_title="Terminal v1.0",
     page_icon="💚",
@@ -110,10 +115,13 @@ terminal_css = """
         100% { transform: scale(0.9); }
     }
 
-    /* Estilos CSS para el diseño y movimiento de las calaveras. */
+    /* ------------------------------------------------------------- */
+    /* CAMBIO 2: Estilos CSS para el diseño y movimiento de las calaveras. */
+    /* Definimos que empiecen flotando arriba, vayan bajando y rotando */
+    /* ------------------------------------------------------------- */
     .skull {
         position: fixed;
-        top: -10%;           /* Aparecen justo encima del borde superior */
+        top: -10%;            /* Aparecen justo encima del borde superior */
         user-select: none;    /* Evita que el usuario las pueda seleccionar sin querer */
         pointer-events: none; /* Permite hacer clic "a través" de ellas */
         z-index: 9999;        /* Las posiciona por encima de todo el contenido */
@@ -133,6 +141,41 @@ terminal_css = """
             opacity: 0;                                  /* Se desvanece por completo */
         }
     }
+ /* Bloqueo Fatal */
+    #fatal-error-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 9999999; display: none; justify-content: center; align-items: center; flex-direction: column; color: red; font-family: 'Fira Code', monospace; }
+    #bomb-element { position: fixed; font-size: 40px; cursor: none; z-index: 99999; display: none; transition: transform 0.05s ease; }
+</style>
+
+<div id="bomb-element">💣</div>
+<div id="fatal-error-screen">
+    <h1 style="font-size: 100px; text-shadow: 0 0 20px red;">ERROR FATAL</h1>
+    <p>SYSTEM COMPROMISED. CONNECTION TERMINATED.</p>
+</div>
+
+<script>
+    const bomb = document.getElementById('bomb-element');
+    const fatalScreen = document.getElementById('fatal-error-screen');
+    let active = false;
+
+    function activateBomb() {
+        active = true;
+        bomb.style.display = 'block';
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        if (!active) return;
+        bomb.style.left = (e.clientX - 20) + 'px';
+        bomb.style.top = (e.clientY - 20) + 'px';
+        
+        bomb.addEventListener('mouseover', () => {
+            if (active) {
+                fatalScreen.style.display = 'flex';
+                active = false;
+            }
+        });
+    });
+</script>
+"""
 
     /* Estilos para el bloque de Advertencia / Alerta de Seguridad */
     .warning-box {
@@ -149,38 +192,7 @@ terminal_css = """
         font-size: 16px;
         line-height: 1.6;
     }
-
-    /* Bloqueo fatal */
-    #error-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 100000; display: none; justify-content: center; align-items: center; flex-direction: column; color: red; font-family: 'Fira Code', monospace; }
-    #cursor-bomb { position: fixed; pointer-events: none; font-size: 24px; z-index: 10000; display: none; transition: transform 0.1s ease; }
 </style>
-
-<div id="cursor-bomb">💣</div>
-<div id="error-overlay">
-    <h1 style="font-size: 80px;">ERROR</h1>
-    <p>SYSTEM COMPROMISED.</p>
-</div>
-
-<script>
-    const bomb = document.getElementById('cursor-bomb');
-    const overlay = document.getElementById('error-overlay');
-    let active = false;
-
-    function activateBomb() {
-        active = true;
-        bomb.style.display = 'block';
-    }
-
-    document.addEventListener('mousemove', (e) => {
-        if (!active) return;
-        bomb.style.left = (e.clientX + 10) + 'px';
-        bomb.style.top = (e.clientY + 10) + 'px';
-    });
-
-    document.addEventListener('click', (e) => {
-        if (active) overlay.style.display = 'flex';
-    });
-</script>
 """
 
 # Apply the custom CSS
@@ -239,7 +251,10 @@ else:
         with st.spinner("Processing data..."):
             time.sleep(1)
         
-        # Bucle generador de lluvia de calaveras.
+        # -------------------------------------------------------------
+        # CAMBIO 3: Bucle generador de lluvia de calaveras.
+        # En lugar de st.balloons(), construimos HTML dinámico con Python
+        # -------------------------------------------------------------
         skulls_html = ""
         for _ in range(45): # Generamos 45 calaveras individuales
             left_pos = random.randint(1, 99)   # Posición en el ancho de la pantalla (1% al 99% de ancho)
@@ -263,7 +278,9 @@ else:
         # Render our beautiful CSS neon green beating heart
         st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
         
-        # Estado de sesión para saber si se hizo clic en el corazón
+        # -------------------------------------------------------------
+        # NUEVO CAMBIO: Estado de sesión para saber si se hizo clic en el corazón
+        # -------------------------------------------------------------
         if 'heart_clicked' not in st.session_state:
             st.session_state.heart_clicked = False
         
@@ -280,8 +297,6 @@ else:
                 '</p>', 
                 unsafe_allow_html=True
             )
-            # Activamos la bomba cuando el usuario termina de ver el mensaje
-            st.markdown("<script>activateBomb();</script>", unsafe_allow_html=True)
         
         # Final dedication message
         st.markdown(
