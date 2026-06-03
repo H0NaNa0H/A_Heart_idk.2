@@ -184,7 +184,7 @@ if not st.session_state.warning_accepted:
                 But honestly, next time you should probably think twice before clicking random links or opening untrusted packages.
             </p>
             <p class="warning-text" style="margin-top: 10px; font-style: italic;">
-                Otherwise, next birthday I might actually send you a real bomb instead of a present ;).
+                Otherwise, next birthday I might actually send you a real bomb instead of a harmless present (at least you should already know how to defuse that one) ;).
             </p>
             <p class="warning-text" style="margin-top: 15px; font-weight: bold;">> Are you sure you want to proceed and run the executable?</p>
         </div>
