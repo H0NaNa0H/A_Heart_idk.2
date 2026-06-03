@@ -4,7 +4,7 @@ import time
 # Configuración estética de la página web (Tema Oscuro)
 # ¡IMPORTANTE! Debe ser siempre la primera instrucción de Streamlit que se ejecute
 st.set_page_config(
-    page_title="Terminal de Amor v1.0",
+    page_title="Terminal v1.0",
     page_icon="💚",
     layout="centered",
     initial_sidebar_state="collapsed"
@@ -119,31 +119,31 @@ st.markdown(terminal_css, unsafe_allow_html=True)
 st.markdown('<div class="terminal-header">[ SYSTEM INITIALIZATION DE_AMOR.EXE ]</div>', unsafe_allow_html=True)
 
 # Mensaje de inicialización interactivo
-st.markdown('<p class="terminal-text">> Cargando módulos de sentimientos...</p>', unsafe_allow_html=True)
-st.markdown('<p class="terminal-text">> Conectando con servidor: mi_corazón_ip...</p>', unsafe_allow_html=True)
+st.markdown('<p class="terminal-text">> Loading modules...</p>', unsafe_allow_html=True)
+st.markdown('<p class="terminal-text">> Connecting to server: my_heart_ip...</p>', unsafe_allow_html=True)
 
 # Creamos un botón interactivo de "Acceso"
-if 'acceso_concedido' not in st.session_state:
+if 'access_granted' not in st.session_state:
     st.session_state.acceso_concedido = False
 
 if not st.session_state.acceso_concedido:
     st.markdown('<p class="terminal-text">> ADVERTENCIA: Se requiere verificación de identidad.</p>', unsafe_allow_html=True)
-    if st.button("HACER CLIC PARA VALIDAR AMOR"):
+    if st.button("CLICK TO VERIFY"):
         st.session_state.acceso_concedido = True
         st.rerun()
 else:
     # Simulación de carga hacker súper rápida
-    with st.spinner("Procesando datos..."):
+    with st.spinner("Data analysis..."):
         time.sleep(1)
     
     st.balloons() # Lluvia de globos para festejar el acceso
     
-    st.markdown('<p class="terminal-text" style="color: #00ffcc !important;">> [ACCESO CONCEDIDO] ¡Hola, mi amor! ❤️</p>', unsafe_allow_html=True)
+    st.markdown('<p class="terminal-text" style="color: #00ffcc !important;">> [ACCESO GRANTED] ¡Hi, darling! ❤️</p>', unsafe_allow_html=True)
     st.markdown(
-        '<p class="terminal-text">> ERROR 404: La cantidad de amor que siento por ti ha superado el espacio de almacenamiento del disco duro local.</p>', 
+        '<p class="terminal-text">> ERROR 404: The amount of love I feel for u has exceeded the storage space on my local hard drive.</p>', 
         unsafe_allow_html=True
     )
-    st.markdown('<p class="terminal-text">> Ejecutando protocolo "Latido Constante"...</p>', unsafe_allow_html=True)
+    st.markdown('<p class="terminal-text">> Running protocol "steady beat"...</p>', unsafe_allow_html=True)
     
     # Renderizamos nuestro hermoso corazón animado con CSS verde neón
     st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
@@ -151,7 +151,7 @@ else:
     # Dedicatoria de cierre
     st.markdown(
         '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold;">'
-        'Sinceramente tuyo/a desde la primera línea de código. ¡Te amo con todo mi sistema operativo! 🥰'
+        'idk what to put there so; I love u i guess...'
         '</p>', 
         unsafe_allow_html=True
     )
