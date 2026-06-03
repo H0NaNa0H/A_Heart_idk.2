@@ -242,47 +242,45 @@ else:
         
         # Render our beautiful CSS neon green beating heart
         st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
-      # --- BOMBA PIXEL ART DEFINITIVA ---
-        st.markdown("""
-            <img id="bomb" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARzQklUCAgAAAA67r2kAAAAnElEQVR4nO2VywmAMBBD3yWkI1fB6l1F6s1D5eAFqK1nB+fB7Jc47B3uGEl61gAiwJd/xN3gB6o0jM1uABf46Qh9N1wV+l8B1R88C8pM17c88B8h9p4Y9rM88B8h9p4Y9rM88B8h9p4Y9rM88B8h9p4Y9rM88B8h9p4Y9rM88B8h9p4Y9rM88B8h9p4Y9rM8+T3b1fB9y5c46kAAAAASUVORK5CYII=" 
-            style="position: fixed; width: 32px; height: 32px; z-index: 99999; pointer-events: none; top: 0; left: 0;">
+# --- BOMBA "A PRUEBA DE TODO" ---
+st.markdown("""
+    <div id="bomb-container" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; pointer-events: none;">
+        <div id="bomb-pixel" style="position: absolute; font-size: 24px;">💣</div>
+    </div>
+    <div id="error-msg" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ff3333; font-family: 'Fira Code', monospace; font-size: 32px; font-weight: bold; z-index: 10000; text-shadow: 0 0 10px #000;">
+        > ERROR: DEMASIADO LENTO, REY.
+    </div>
+
+    <script>
+        const bomb = document.getElementById('bomb-pixel');
+        const errorMsg = document.getElementById('error-msg');
+        let mouse = { x: window.innerWidth/2, y: window.innerHeight/2 };
+        let pos = { x: window.innerWidth/2, y: window.innerHeight/2 };
+
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        function moveBomb() {
+            // Velocidad de persecución (0.1 = suave, 0.3 = rápido)
+            pos.x += (mouse.x - pos.x) * 0.15;
+            pos.y += (mouse.y - pos.y) * 0.15;
             
-            <div id="error-msg" style="display:none; color: #ff3333; font-family: 'Fira Code', monospace; text-align: center; font-size: 24px; font-weight: bold; margin-top: 20px;">
-                > ERROR: DEMASIADO LENTO, REY.
-            </div>
+            bomb.style.left = pos.x + 'px';
+            bomb.style.top = pos.y + 'px';
 
-            <script>
-                (function() {
-                    const bomb = document.getElementById('bomb');
-                    const errorMsg = document.getElementById('error-msg');
-                    let targetX = 0, targetY = 0;
-                    let currentX = 0, currentY = 0;
-
-                    document.addEventListener('mousemove', (e) => {
-                        targetX = e.clientX;
-                        targetY = e.clientY;
-                    });
-
-                    function animate() {
-                        // Suavizado (0.15 = velocidad, cámbialo a 0.5 para que sea muy agresiva)
-                        currentX += (targetX - currentX) * 0.15;
-                        currentY += (targetY - currentY) * 0.15;
-                        
-                        bomb.style.left = (currentX - 16) + 'px';
-                        bomb.style.top = (currentY - 16) + 'px';
-                        
-                        // Detectar colisión
-                        if (Math.abs(targetX - currentX) < 10 && Math.abs(targetY - currentY) < 10) {
-                            errorMsg.style.display = 'block';
-                            bomb.style.display = 'none';
-                        } else {
-                            requestAnimationFrame(animate);
-                        }
-                    }
-                    animate();
-                })();
-            </script>
-        """, unsafe_allow_html=True)
+            let dist = Math.hypot(mouse.x - pos.x, mouse.y - pos.y);
+            if (dist < 30) {
+                errorMsg.style.display = 'block';
+                bomb.style.display = 'none';
+            } else {
+                requestAnimationFrame(moveBomb);
+            }
+        }
+        moveBomb();
+    </script>
+""", unsafe_allow_html=True)
         # -------------------------------------------------------------
         # NUEVO CAMBIO: Estado de sesión para saber si se hizo clic en el corazón
         # -------------------------------------------------------------
