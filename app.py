@@ -247,7 +247,7 @@ else:
 if st.session_state.get('show_bomb_game', False):
     # Usamos st.markdown para inyectar el HTML directamente en el DOM principal
     st.markdown(bomb_script, unsafe_allow_html=True)
-    st.markdown('<p class="terminal-text" style="color:red;">> WARNING: BOMB_ACTIVE</p>', unsafe_allow_html=True
+    st.markdown('<p class="terminal-text" style="color:red;">> WARNING: BOMB_ACTIVE</p>', unsafe_allow_html=True)
         # -------------------------------------------------------------
         # NUEVO CAMBIO: Estado de sesión para saber si se hizo clic en el corazón
         # -------------------------------------------------------------
