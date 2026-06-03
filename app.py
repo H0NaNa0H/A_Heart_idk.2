@@ -141,7 +141,7 @@ terminal_css = """
             opacity: 0;                                  /* Se desvanece por completo */
         }
     }
- /* Bloqueo Fatal */
+    /* Bloqueo Fatal */
     #fatal-error-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 9999999; display: none; justify-content: center; align-items: center; flex-direction: column; color: red; font-family: 'Fira Code', monospace; }
     #bomb-element { position: fixed; font-size: 40px; cursor: none; z-index: 99999; display: none; transition: transform 0.05s ease; }
 </style>
@@ -176,7 +176,6 @@ terminal_css = """
     });
 </script>
 """
-
     /* Estilos para el bloque de Advertencia / Alerta de Seguridad */
     .warning-box {
         background-color: #1a0f00;
