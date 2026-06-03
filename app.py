@@ -157,18 +157,6 @@ terminal_css = """
         font-size: 16px;
         line-height: 1.6;
     }
-.link-button {
-    background: none !important;
-    border: none !important;
-    padding: 0 !important;
-    color: #ffaa00 !important;
-    text-decoration: underline !important;
-    cursor: pointer !important;
-    font-family: 'Fira Code', monospace !important;
-    font-size: 16px !important;
-    display: inline !important;
-}
-.link-button:hover { color: #ff3333 !important; }
 </style>
 """
 
@@ -178,66 +166,8 @@ st.markdown(terminal_css, unsafe_allow_html=True)
 # -------------------------------------------------------------
 # NUEVO FLUJO: Página de Warning de Malware / Regalo Bomba
 # -------------------------------------------------------------
-if 'show_game' not in st.session_state: st.session_state.show_game = False
-if 'warning_accepted' not in st.session_state: st.session_state.warning_accepted = False
-if 'acceso_concedido' not in st.session_state: st.session_state.acceso_concedido = False
-
-# --- 1. LÓGICA DEL JUEGO (SI ESTÁ ACTIVO) ---
-if st.session_state.show_game:
-    game_html = """
-    <div id="game-stage" style="position:fixed; inset:0; z-index:999999; background: #0d0d0d; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <div id="bomb" style="position:absolute; font-size:40px; pointer-events:none;">💣</div>
-    </div>
-    <script>
-        const b = document.getElementById('bomb');
-        let mx = window.innerWidth/2, my = window.innerHeight/2, bx = 50, by = 50, vx = 0, vy = 0;
-        window.addEventListener('mousemove', e => { mx = e.pageX; my = e.pageY; });
-        function anim() {
-            vx += (mx - bx) * 0.02; vy += (my - by) * 0.02;
-            bx += (vx *= 0.85); by += (vy *= 0.85);
-            b.style.left = bx + 'px'; b.style.top = by + 'px';
-            requestAnimationFrame(anim);
-        }
-        anim();
-    </script>
-    """
-    st.markdown(game_html, unsafe_allow_html=True)
-    if st.button("EXIT BOMB GAME"):
-        st.session_state.show_game = False
-        st.rerun()
-
-# --- 2. LÓGICA DE ADVERTENCIA ---
-elif not st.session_state.warning_accepted:
-    st.markdown('<div class="terminal-header" style="color: #ff3333 !important;">[ !!! SECURITY WARNING !!! ]</div>', unsafe_allow_html=True)
-    st.markdown('<div class="warning-box">', unsafe_allow_html=True)
-    st.markdown('<p class="warning-text">> SYSTEM DETECTED A SUSPICIOUS CONNECTION FROM: NaNa.EXE</p>', unsafe_allow_html=True)
-    
-    # Línea interactiva
-    c1, c2, c3 = st.columns([0.45, 0.07, 0.48])
-    with c1: st.markdown('<p class="warning-text" style="font-style: italic;">Otherwise, next birthday I might actually send you a real </p>', unsafe_allow_html=True)
-    with c2: 
-        if st.button("bomb"):
-            st.session_state.show_game = True
-            st.session_state.warning_accepted = True
-            st.rerun()
-    with c3: st.markdown('<p class="warning-text" style="font-style: italic;"> instead of a harmless present...</p>', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-    if st.button("PROCEED ANYWAY (I TRUST NANA)"):
-        st.session_state.warning_accepted = True
-        st.rerun()
-
-# --- 3. LÓGICA DEL SISTEMA PRINCIPAL ---
-else:
-    st.markdown('<div class="terminal-header">[ SYSTEM INITIALIZATION NaNa.EXE ]</div>', unsafe_allow_html=True)
-    if not st.session_state.acceso_concedido:
-        if st.button("CLICK TO VALIDATE"):
-            st.session_state.acceso_concedido = True
-            st.rerun()
-    else:    st.markdown('</div>', unsafe_allow_html=True)
-    if st.button("PROCEED ANYWAY (I TRUST NANA)"):
-        st.session_state.warning_accepted = True
-        st.rerun()
+if 'warning_accepted' not in st.session_state:
+    st.session_state.warning_accepted = False
 
 if not st.session_state.warning_accepted:
     # Encabezado rojo/naranja de advertencia
@@ -290,29 +220,6 @@ else:
         # CAMBIO 3: Bucle generador de lluvia de calaveras.
         # En lugar de st.balloons(), construimos HTML dinámico con Python
         # -------------------------------------------------------------
-	if st.session_state.show_game:
-    game_html = """
-    <div id="game-stage" style="position:fixed; inset:0; z-index:999999; background: #0d0d0d;">
-        <div id="bomb" style="position:absolute; font-size:30px; top:50px; left:50px; pointer-events:none;">💣</div>
-    </div>
-    <script>
-        const b = document.getElementById('bomb');
-        let mx = window.innerWidth/2, my = window.innerHeight/2, bx = 50, by = 50, vx = 0, vy = 0;
-        window.addEventListener('mousemove', e => { mx = e.pageX; my = e.pageY; });
-        function anim() {
-            vx += (mx - bx) * 0.02; vy += (my - by) * 0.02;
-            bx += (vx *= 0.85); by += (vy *= 0.85);
-            b.style.left = bx + 'px'; b.style.top = by + 'px';
-            requestAnimationFrame(anim);
-        }
-        anim();
-    </script>
-    """
-    st.markdown(game_html, unsafe_allow_html=True)
-    if st.button("EXIT BOMB GAME"):
-        st.session_state.show_game = False
-        st.rerun()
-
         skulls_html = ""
         for _ in range(45): # Generamos 45 calaveras individuales
             left_pos = random.randint(1, 99)   # Posición en el ancho de la pantalla (1% al 99% de ancho)
