@@ -10,13 +10,13 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS con el script de la bomba que sigue el cursor
+# Custom CSS con el script de la bomba incluido
 terminal_css = """
 <style>
     .stApp { background-color: #0d0d0d !important; }
     header, footer { visibility: hidden !important; }
     
-    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght=400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
     
     .terminal-text { font-family: 'Fira Code', monospace !important; color: #39FF14 !important; text-shadow: 0 0 5px rgba(57, 255, 20, 0.7); font-size: 18px; line-height: 1.6; }
     .terminal-header { font-family: 'Fira Code', monospace !important; color: #39FF14 !important; text-shadow: 0 0 10px rgba(57, 255, 20, 0.9); font-size: 28px; font-weight: bold; text-align: center; border-bottom: 2px solid #39FF14; padding-bottom: 10px; margin-bottom: 30px; }
@@ -36,38 +36,32 @@ terminal_css = """
     .warning-box { background-color: #1a0f00; border: 2px solid #ffaa00; padding: 20px; border-radius: 5px; margin-bottom: 25px; }
     .warning-text { font-family: 'Fira Code', monospace !important; color: #ffaa00 !important; text-shadow: 0 0 5px rgba(255, 170, 0, 0.7); font-size: 16px; line-height: 1.6; }
 
-    /* Estilo para la bomba que sigue el cursor */
-    #cursor-bomb { position: fixed; pointer-events: none; font-size: 30px; z-index: 99999; display: none; }
+    #cursor-bomb { position: fixed; pointer-events: none; font-size: 30px; z-index: 999999; display: none; }
 </style>
 
 <div id="cursor-bomb">💣</div>
 
 <script>
     const bomb = document.getElementById('cursor-bomb');
-    document.addEventListener('mousemove', (e) => {
+    window.addEventListener('mousemove', (e) => {
         bomb.style.left = (e.clientX + 15) + 'px';
         bomb.style.top = (e.clientY + 15) + 'px';
     });
 
-    function showBomb() {
+    function activateBombCursor() {
+        document.body.style.cursor = 'none';
         bomb.style.display = 'block';
     }
 </script>
 """
 
-# Apply the custom CSS
 st.markdown(terminal_css, unsafe_allow_html=True)
 
-# -------------------------------------------------------------
-# NUEVO FLUJO: Página de Warning de Malware / Regalo Bomba
-# -------------------------------------------------------------
 if 'warning_accepted' not in st.session_state:
     st.session_state.warning_accepted = False
 
 if not st.session_state.warning_accepted:
-    # Encabezado rojo/naranja de advertencia
     st.markdown('<div class="terminal-header" style="color: #ff3333 !important; border-bottom-color: #ff3333 !important; text-shadow: 0 0 10px rgba(255, 51, 51, 0.9);">[ !!! SECURITY WARNING !!! ]</div>', unsafe_allow_html=True)
-    
     st.markdown('''
         <div class="warning-box">
             <p class="warning-text">> SYSTEM DETECTED A SUSPICIOUS CONNECTION FROM: NaNa.EXE</p>
@@ -90,14 +84,10 @@ if not st.session_state.warning_accepted:
         st.rerun()
 
 else:
-    # Console-style header
     st.markdown('<div class="terminal-header">[ SYSTEM INITIALIZATION NaNa.EXE ]</div>', unsafe_allow_html=True)
-
-    # Interactive initialization messages
     st.markdown('<p class="terminal-text">> Loading modules...</p>', unsafe_allow_html=True)
     st.markdown('<p class="terminal-text">> Connecting to server: my_illness_ip...</p>', unsafe_allow_html=True)
 
-    # Create an interactive "Access" button using session state
     if 'acceso_concedido' not in st.session_state:
         st.session_state.acceso_concedido = False
 
@@ -105,51 +95,38 @@ else:
         st.markdown('<p class="terminal-text">> WARNING: Identity verification required.</p>', unsafe_allow_html=True)
         if st.button("CLICK TO VALIDATE"):
             st.session_state.acceso_concedido = True
+            st.markdown("<script>activateBombCursor();</script>", unsafe_allow_html=True)
             st.rerun()
     else:
-        # Quick hacker-like loading simulation
+        # Mantener la bomba activa si ya se autenticó
+        st.markdown("<script>activateBombCursor();</script>", unsafe_allow_html=True)
+        
         with st.spinner("Processing data..."):
             time.sleep(1)
         
-        # -------------------------------------------------------------
-        # Bucle generador de lluvia de calaveras.
-        # -------------------------------------------------------------
         skulls_html = ""
-        for _ in range(45): # Generamos 45 calaveras individuales
-            left_pos = random.randint(1, 99)   # Posición en el ancho de la pantalla (1% al 99% de ancho)
-            delay = random.uniform(0, 3.5)     # Tiempo de retraso aleatorio antes de empezar a caer (segundos)
-            duration = random.uniform(2.5, 6)  # Tiempo de duración (velocidad) de la caída (segundos)
-            size = random.randint(18, 38)      # Tamaño aleatorio de la calavera en píxeles (px)
-            
-            # Juntamos los datos generados en una etiqueta HTML 'div'
+        for _ in range(45):
+            left_pos = random.randint(1, 99)
+            delay = random.uniform(0, 3.5)
+            duration = random.uniform(2.5, 6)
+            size = random.randint(18, 38)
             skulls_html += f'<div class="skull" style="left: {left_pos}vw; animation-delay: {delay}s; animation-duration: {duration}s; font-size: {size}px;">💀</div>'
             
-        # Inyectamos el bloque completo de calaveras en el navegador
         st.markdown(skulls_html, unsafe_allow_html=True)
         
         st.markdown('<p class="terminal-text" style="color: #00ffcc !important;">> [ACCESS GRANTED] Hi, Kralj! </p>', unsafe_allow_html=True)
-        st.markdown(
-            '<p class="terminal-text">> ERROR 404: cuz idk like always.</p>', 
-            unsafe_allow_html=True
-        )
+        st.markdown('<p class="terminal-text">> ERROR 404: cuz idk like always.</p>', unsafe_allow_html=True)
         st.markdown('<p class="terminal-text">> Executing protocol "Constant pain"...</p>', unsafe_allow_html=True)
         
-        # Render our beautiful CSS neon green beating heart
         st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
         
-        # -------------------------------------------------------------
-        # Estado de sesión para saber si se hizo clic en el corazón
-        # -------------------------------------------------------------
         if 'heart_clicked' not in st.session_state:
             st.session_state.heart_clicked = False
         
-        # Botón interactivo debajo del corazón con estilo de terminal hacker
         if st.button("💚 [ INTERACT WITH CONSTANT_HEART.SYS ] 💚"):
             st.session_state.heart_clicked = True
             
         if st.session_state.heart_clicked:
-            # Activamos la bomba vía JavaScript al hacer click en el corazón
-            st.markdown("<script>showBomb();</script>", unsafe_allow_html=True)
             st.markdown('<p class="terminal-text" style="color: #ff0055 !important;">> [DECRYPTING HEART_LOG.TXT...]</p>', unsafe_allow_html=True)
             time.sleep(0.3)
             st.markdown(
@@ -159,7 +136,6 @@ else:
                 unsafe_allow_html=True
             )
         
-        # Final dedication message
         st.markdown(
             '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 30px;">'
             'Tbh idk what to put here so; I love u i guess...'
