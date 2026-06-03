@@ -90,23 +90,20 @@ bomb_html = """
         my = e.pageY; 
     });
 
-    function animate() {
-        // Aceleración suave hacia el cursor
-        vx += (mx - bx) * 0.002;
-        vy += (my - by) * 0.002;
+   function animate() {
+        // Aumentamos la fuerza de atracción (multiplicador de 0.002 a 0.05)
+        vx += (mx - bx) * 0.05;
+        vy += (my - by) * 0.05;
         
-        // Fricción para suavizar el desplazamiento
-        bx += vx *= 0.90;
-        by += vy *= 0.90;
+        // Reducimos la fricción (de 0.90 a 0.70 o 0.80)
+        // Esto hace que la bomba reaccione más rápido a los cambios de dirección
+        bx += (vx *= 0.75);
+        by += (vy *= 0.75);
         
-        // Aplicamos la posición
         bomb.style.left = bx + 'px';
         bomb.style.top = by + 'px';
         
         requestAnimationFrame(animate);
-    }
-    animate();
-</script>
 """
 
 # --- INICIALIZACIÓN DE ESTADOS ---
