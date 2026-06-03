@@ -1,3 +1,6 @@
+import streamlit as st
+import time
+
 # Configuración estética de la página web (Tema Oscuro)
 # ¡IMPORTANTE! Debe ser siempre la primera instrucción de Streamlit que se ejecute
 st.set_page_config(
