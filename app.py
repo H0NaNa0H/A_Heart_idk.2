@@ -5,6 +5,8 @@ import time
 # valores aleatorios (posiciones, tamaños y velocidades de las calaveras)
 # -------------------------------------------------------------
 import random
+import streamlit as st
+import streamlit.components.v
 
 # Aesthetic webpage configuration (Dark Mode)
 # IMPORTANT! This must be the very first Streamlit command executed
@@ -258,7 +260,7 @@ else:
             time.sleep(0.3)
             st.markdown(
                 '<p class="terminal-text" style="background-color: #1a0000; border: 1px solid #ff0055; padding: 15px; border-radius: 5px; font-weight: bold; color: #ff3366 !important;">'
-                '>> "Don\'t get used to this because I\'m just learning and I\'m not good at these things, let alone being \'romantic?\'"'
+                '>> "Don\'t get used to this cuz I\'m just learning and I\'m not good at these things, let alone being \'romantic?\'"'
                 '</p>', 
                 unsafe_allow_html=True
             )
