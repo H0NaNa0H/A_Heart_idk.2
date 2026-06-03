@@ -242,7 +242,39 @@ else:
         
         # Render our beautiful CSS neon green beating heart
         st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
-        
+        #--- AQUÍ AÑADES LA BOMBA Y EL SCRIPT DE PERSECUCIÓN ---
+        st.markdown("""
+            <div id="bomb" style="position: fixed; font-size: 30px; cursor: pointer; z-index: 10000; transition: transform 0.1s;">💣</div>
+            <div id="error-msg" style="display:none; color: #ff3333; font-family: 'Fira Code', monospace; text-align: center; font-size: 24px; font-weight: bold; margin-top: 20px;">
+                > ERROR: DEMASIADO LENTO, REY.
+            </div>
+
+            <script>
+                let bomb = document.getElementById('bomb');
+                let errorMsg = document.getElementById('error-msg');
+                let mouse = { x: 0, y: 0 };
+                let pos = { x: 0, y: 0 };
+                
+                document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+                
+                function animate() {
+                    pos.x += (mouse.x - pos.x) * 0.15; // Velocidad de persecución
+                    pos.y += (mouse.y - pos.y) * 0.15;
+                    bomb.style.left = pos.x + 'px';
+                    bomb.style.top = pos.y + 'px';
+                    
+                    let dist = Math.hypot(mouse.x - pos.x, mouse.y - pos.y);
+                    if (dist < 40) {
+                        errorMsg.style.display = 'block';
+                        bomb.style.display = 'none';
+                    } else {
+                        requestAnimationFrame(animate);
+                    }
+                }
+                animate();
+            </script>
+        """, unsafe_allow_html=True)
+        # --- FIN DE LA ADICIÓN ---
         # -------------------------------------------------------------
         # NUEVO CAMBIO: Estado de sesión para saber si se hizo clic en el corazón
         # -------------------------------------------------------------
