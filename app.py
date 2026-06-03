@@ -13,7 +13,8 @@ st.set_page_config(
 # Integración completa de estilos y scripts
 terminal_css = """
 <style>
-    .stApp { background-color: #0d0d0d !important; cursor: none !important; }
+    /* Forzar que el cursor sea visible hasta que se active la bomba para mejorar la UX inicial */
+    .stApp { background-color: #0d0d0d !important; }
     header, footer { visibility: hidden !important; }
     
     @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght=400;700&display=swap');
@@ -37,7 +38,7 @@ terminal_css = """
     .warning-text { font-family: 'Fira Code', monospace !important; color: #ffaa00 !important; font-size: 16px; line-height: 1.6; }
 
     #fatal-error-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 9999999; display: none; justify-content: center; align-items: center; flex-direction: column; color: red; font-family: 'Fira Code', monospace; }
-    #bomb-element { position: fixed; font-size: 40px; cursor: none; z-index: 99999; display: none; transition: transform 0.1s ease; pointer-events: none; }
+    #bomb-element { position: fixed; font-size: 40px; z-index: 99999; display: none; transition: transform 0.05s linear; pointer-events: none; }
 </style>
 
 <div id="bomb-element">💣</div>
@@ -54,6 +55,7 @@ terminal_css = """
 
     function activateBomb() {
         active = true;
+        document.body.style.cursor = 'none'; // Ocultar cursor al activar
         bomb.style.display = 'block';
     }
 
@@ -61,9 +63,13 @@ terminal_css = """
         if (!active) return;
         bomb.style.left = (e.clientX - 20) + 'px';
         bomb.style.top = (e.clientY - 20) + 'px';
+        
+        // Detectar si el usuario intenta "hacer clic" (detectamos proximidad extrema)
         const rect = bomb.getBoundingClientRect();
         const dist = Math.hypot(e.clientX - (rect.left + 20), e.clientY - (rect.top + 20));
-        if (dist < 30) {
+        
+        // Si el usuario mueve el ratón demasiado rápido o hace clic cerca, detonamos
+        if (dist < 50) {
             fatalScreen.style.display = 'flex';
             active = false;
             bomb.style.display = 'none';
@@ -99,7 +105,6 @@ else:
             st.session_state.acceso_concedido = True
             st.rerun()
     else:
-        # Lluvia de calaveras
         skulls_html = "".join([f'<div class="skull" style="left: {random.randint(1, 99)}vw; animation-delay: {random.uniform(0, 3)}s; animation-duration: {random.uniform(2, 5)}s;">💀</div>' for _ in range(30)])
         st.markdown(skulls_html, unsafe_allow_html=True)
         
@@ -117,3 +122,4 @@ else:
             st.markdown("<script>activateBomb();</script>", unsafe_allow_html=True)
         
         st.markdown('<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 30px;">Tbh idk what to put here so; I love u i guess...</p>', unsafe_allow_html=True)
+    
