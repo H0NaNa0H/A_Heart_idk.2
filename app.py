@@ -114,6 +114,15 @@ terminal_css = """
         60% { transform: scale(0.95); }
         100% { transform: scale(0.9); }
     }
+bomb-cursor {
+        position: fixed; font-size: 25px; pointer-events: none;
+        z-index: 10000; transition: transform 0.1s ease;
+        text-shadow: 0 0 5px #39FF14;
+    }
+    
+    .warning-box { background-color: #1a0f00; border: 2px solid #ffaa00; padding: 20px; border-radius: 5px; }
+    .warning-text { color: #ffaa00 !important; font-size: 16px; }
+</style>
 
     /* ------------------------------------------------------------- */
     /* CAMBIO 2: Estilos CSS para el diseño y movimiento de las calaveras. */
