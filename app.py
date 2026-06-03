@@ -243,42 +243,41 @@ else:
         # Render our beautiful CSS neon green beating heart
         st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
         
-      # --- BOMBA CON SCRIPT INTEGRADO ---
+      # --- BOMBA PIXEL ART ---
         st.markdown("""
-            <div id="bomb" style="position: fixed; font-size: 30px; cursor: pointer; z-index: 99999; pointer-events: none; top: 0; left: 0;">💣</div>
+            <div id="bomb" style="position: fixed; font-size: 20px; z-index: 99999; pointer-events: none; top: 0; left: 0;">💣</div>
             <div id="error-msg" style="display:none; color: #ff3333; font-family: 'Fira Code', monospace; text-align: center; font-size: 24px; font-weight: bold; margin-top: 20px;">
                 > ERROR: DEMASIADO LENTO, REY.
             </div>
 
             <script>
-                (function() {
-                    const bomb = document.getElementById('bomb');
-                    const errorMsg = document.getElementById('error-msg');
-                    let mouse = { x: 0, y: 0 };
-                    let pos = { x: 0, y: 0 };
+                const bomb = document.getElementById('bomb');
+                const errorMsg = document.getElementById('error-msg');
+                let mouse = { x: 0, y: 0 };
+                let pos = { x: 0, y: 0 };
+                
+                window.addEventListener('mousemove', e => { 
+                    mouse.x = e.clientX; 
+                    mouse.y = e.clientY; 
+                });
+                
+                function update() {
+                    // Velocidad de persecución (aumentada a 0.2 para que sea rápida)
+                    pos.x += (mouse.x - pos.x) * 0.2;
+                    pos.y += (mouse.y - pos.y) * 0.2;
                     
-                    document.addEventListener('mousemove', e => { 
-                        mouse.x = e.clientX; 
-                        mouse.y = e.clientY; 
-                    });
+                    bomb.style.left = (pos.x + 10) + 'px';
+                    bomb.style.top = (pos.y + 10) + 'px';
                     
-                    function animate() {
-                        if (!bomb) return;
-                        pos.x += (mouse.x - pos.x) * 0.15;
-                        pos.y += (mouse.y - pos.y) * 0.15;
-                        bomb.style.left = (pos.x - 15) + 'px';
-                        bomb.style.top = (pos.y - 15) + 'px';
-                        
-                        let dist = Math.hypot(mouse.x - pos.x, mouse.y - pos.y);
-                        if (dist < 40) {
-                            errorMsg.style.display = 'block';
-                            bomb.style.display = 'none';
-                        } else {
-                            requestAnimationFrame(animate);
-                        }
+                    let dist = Math.hypot(mouse.x - pos.x, mouse.y - pos.y);
+                    if (dist < 30) {
+                        errorMsg.style.display = 'block';
+                        bomb.style.display = 'none';
+                    } else {
+                        requestAnimationFrame(update);
                     }
-                    animate();
-                })();
+                }
+                update();
             </script>
         """, unsafe_allow_html=True)
         # -------------------------------------------------------------
