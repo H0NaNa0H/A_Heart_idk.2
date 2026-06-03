@@ -242,35 +242,7 @@ else:
         
         # Render our beautiful CSS neon green beating heart
         st.markdown('<div class="heart-container"><div class="css-heart"></div></div>', unsafe_allow_html=True)
-        
-        # -------------------------------------------------------------
-        # NUEVO CAMBIO: Estado de sesión para saber si se hizo clic en el corazón
-        # -------------------------------------------------------------
-        if 'heart_clicked' not in st.session_state:
-            st.session_state.heart_clicked = False
-        
-        # Botón interactivo debajo del corazón con estilo de terminal hacker
-        if st.button("💚 [ INTERACT WITH CONSTANT_HEART.SYS ] 💚"):
-            st.session_state.heart_clicked = True
-            
-        if st.session_state.heart_clicked:
-            st.markdown('<p class="terminal-text" style="color: #ff0055 !important;">> [DECRYPTING HEART_LOG.TXT...]</p>', unsafe_allow_html=True)
-            time.sleep(0.3)
-            st.markdown(
-                '<p class="terminal-text" style="background-color: #1a0000; border: 1px solid #ff0055; padding: 15px; border-radius: 5px; font-weight: bold; color: #ff3366 !important;">'
-                '>> "Don\'t get used to this because I\'m just learning and I\'m not good at these things, let alone being \'romantic?\'"'
-                '</p>', 
-                unsafe_allow_html=True
-            )
-        
-        # Final dedication message
-        st.markdown(
-            '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 30px;">'
-            'Tbh idk what to put here so; I love u i guess...'
-            '</p>', 
-            unsafe_allow_html=True
-        )
-        # --- LÓGICA DEL MINIJUEGO (Inyección directa) ---
+                # --- LÓGICA DEL MINIJUEGO (Inyección directa) ---
 bomb_script = """
 <div id="bomb" style="position:absolute; top:50px; left:50px; font-size:30px; z-index:99999; pointer-events:none; transition: none;">💣</div>
 <script>
@@ -299,9 +271,35 @@ bomb_script = """
     })();
 </script>
 """
-
 # --- EN TU FLUJO ---
 if st.session_state.get('show_bomb_game', False):
     # Usamos st.markdown para inyectar el HTML directamente en el DOM principal
     st.markdown(bomb_script, unsafe_allow_html=True)
-    st.markdown('<p class="terminal-text" style="color:red;">> WARNING: BOMB_ACTIVE</p>', unsafe_allow_html=True)
+    st.markdown('<p class="terminal-text" style="color:red;">> WARNING: BOMB_ACTIVE</p>', unsafe_allow_html=True
+        # -------------------------------------------------------------
+        # NUEVO CAMBIO: Estado de sesión para saber si se hizo clic en el corazón
+        # -------------------------------------------------------------
+        if 'heart_clicked' not in st.session_state:
+            st.session_state.heart_clicked = False
+        
+        # Botón interactivo debajo del corazón con estilo de terminal hacker
+        if st.button("💚 [ INTERACT WITH CONSTANT_HEART.SYS ] 💚"):
+            st.session_state.heart_clicked = True
+            
+        if st.session_state.heart_clicked:
+            st.markdown('<p class="terminal-text" style="color: #ff0055 !important;">> [DECRYPTING HEART_LOG.TXT...]</p>', unsafe_allow_html=True)
+            time.sleep(0.3)
+            st.markdown(
+                '<p class="terminal-text" style="background-color: #1a0000; border: 1px solid #ff0055; padding: 15px; border-radius: 5px; font-weight: bold; color: #ff3366 !important;">'
+                '>> "Don\'t get used to this because I\'m just learning and I\'m not good at these things, let alone being \'romantic?\'"'
+                '</p>', 
+                unsafe_allow_html=True
+            )
+        
+        # Final dedication message
+        st.markdown(
+            '<p class="terminal-text" style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 30px;">'
+            'Tbh idk what to put here so; I love u i guess...'
+            '</p>', 
+            unsafe_allow_html=True
+        )
